@@ -12,7 +12,7 @@ export default class Exercise1 extends React.Component {
 
   initScene = () => {
   	let scene = new THREE.Scene(); // create scene
-
+		
   	let camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000); //create camera
   	camera.position.set(-30, 40, 30);
   	camera.lookAt(scene.position);
