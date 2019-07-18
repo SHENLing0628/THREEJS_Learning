@@ -32,9 +32,16 @@ export default class Exercise1 extends React.Component {
   	let axes = new THREE.AxesHelper(20);
   	scene.add(axes);
     
-  	//添加鼠标控制效果
+  	//add orbit controller for using mouse to control the scene
   	let orbitControls = new Orbitcontrols(camera);
   	orbitControls.autoRotate = true;
+		
+  	//make the scene is auto-adapted to the window
+  	window.addEventListener('resize', ()=>{
+  		camera.aspect = window.innerWidth / window.innerHeight;
+  		camera.updateProjectionMatrix();
+  		renderer.setSize(window.innerWidth, window.innerHeight);
+  	}, false);
     
   	//create plane
   	let planeGeometry = new THREE.PlaneGeometry(60, 20, 1, 1);
@@ -66,9 +73,26 @@ export default class Exercise1 extends React.Component {
     
 
 
+  	let step = 0; //球体弹跳速度 ball jump speed
   	
   	document.getElementById('scene').appendChild(renderer.domElement);
-  	renderer.render(scene, camera);
+  	// renderer.render(scene, camera);
+  	renderScene();
+		
+  	function renderScene () {
+  		//cube rotate animation
+  		cube.rotation.x += 0.02;
+  		cube.rotation.y += 0.02;
+  		cube.rotation.z += 0.02;
+			
+  		//sphere jump animation
+  		step += 0.04;
+  		sphere.position.x = 20 + (10 * (Math.cos(step)));
+  		sphere.position.y = 2 + (10 * Math.abs(Math.sin(step)));
+
+  		requestAnimationFrame(renderScene);
+  		renderer.render(scene, camera);
+  	}
     
   }
 
